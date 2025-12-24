@@ -25,7 +25,7 @@ public class ConsultationController {
      * @return Liste des consultations
      */
     @GetMapping
-    public ResponseEntity<List<Consultation>> getAllConsultations(@RequestParam Long tenantId) {
+    public ResponseEntity<List<Consultation>> getAllConsultations(@RequestAttribute("tenantId") Long tenantId) {
         List<Consultation> consultations = consultationService.getAllConsultationsByTenant(tenantId);
         return ResponseEntity.ok(consultations);
     }
@@ -37,7 +37,7 @@ public class ConsultationController {
      * @return Liste des consultations du patient
      */
     @GetMapping("/patient/{patientId}")
-    public ResponseEntity<List<Consultation>> getConsultationsByPatient(@PathVariable Long patientId, @RequestParam Long tenantId) {
+    public ResponseEntity<List<Consultation>> getConsultationsByPatient(@PathVariable Long patientId, @RequestAttribute("tenantId") Long tenantId) {
         List<Consultation> consultations = consultationService.getConsultationsByPatientAndTenant(patientId, tenantId);
         return ResponseEntity.ok(consultations);
     }
@@ -49,7 +49,7 @@ public class ConsultationController {
      * @return La consultation ou 404
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Consultation> getConsultationById(@PathVariable Long id, @RequestParam Long tenantId) {
+    public ResponseEntity<Consultation> getConsultationById(@PathVariable Long id, @RequestAttribute("tenantId") Long tenantId) {
         return consultationService.getConsultationByIdAndTenant(id, tenantId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -62,7 +62,7 @@ public class ConsultationController {
      * @return La consultation créée
      */
     @PostMapping
-    public ResponseEntity<Consultation> createConsultation(@RequestBody Consultation consultation, @RequestParam Long tenantId) {
+    public ResponseEntity<Consultation> createConsultation(@RequestBody Consultation consultation, @RequestAttribute("tenantId") Long tenantId) {
         consultation.setTenantId(tenantId);
         Consultation saved = consultationService.saveConsultation(consultation);
         return ResponseEntity.ok(saved);
@@ -76,7 +76,7 @@ public class ConsultationController {
      * @return La consultation mise à jour ou 404
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Consultation> updateConsultation(@PathVariable Long id, @RequestBody Consultation consultation, @RequestParam Long tenantId) {
+    public ResponseEntity<Consultation> updateConsultation(@PathVariable Long id, @RequestBody Consultation consultation, @RequestAttribute("tenantId") Long tenantId) {
         return consultationService.getConsultationByIdAndTenant(id, tenantId)
                 .map(existing -> {
                     consultation.setId(id);
@@ -93,7 +93,7 @@ public class ConsultationController {
      * @return 204 No Content
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteConsultation(@PathVariable Long id, @RequestParam Long tenantId) {
+    public ResponseEntity<Void> deleteConsultation(@PathVariable Long id, @RequestAttribute("tenantId") Long tenantId) {
         consultationService.deleteConsultation(id, tenantId);
         return ResponseEntity.noContent().build();
     }

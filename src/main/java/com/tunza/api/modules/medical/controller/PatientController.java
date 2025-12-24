@@ -28,7 +28,7 @@ public class PatientController {
      * @return Liste des patients
      */
     @GetMapping
-    public ResponseEntity<List<Patient>> getAllPatients(@RequestParam Long tenantId) {
+    public ResponseEntity<List<Patient>> getAllPatients(@RequestAttribute("tenantId") Long tenantId) {
         List<Patient> patients = patientService.getAllPatientsByTenant(tenantId);
         return ResponseEntity.ok(patients);
     }
@@ -40,7 +40,7 @@ public class PatientController {
      * @return Le patient ou 404 si non trouvé
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long id, @RequestParam Long tenantId) {
+    public ResponseEntity<Patient> getPatientById(@PathVariable Long id, @RequestAttribute("tenantId") Long tenantId) {
         return patientService.getPatientByIdAndTenant(id, tenantId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -53,7 +53,7 @@ public class PatientController {
      * @return Le patient créé
      */
     @PostMapping
-    public ResponseEntity<Patient> createPatient(@RequestBody Patient patient, @RequestParam Long tenantId) {
+    public ResponseEntity<Patient> createPatient(@RequestBody Patient patient, @RequestAttribute("tenantId") Long tenantId) {
         patient.setTenantId(tenantId);
         Patient saved = patientService.savePatient(patient);
         return ResponseEntity.ok(saved);
@@ -67,7 +67,7 @@ public class PatientController {
      * @return Le patient mis à jour ou 404 si non trouvé
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody Patient patient, @RequestParam Long tenantId) {
+    public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody Patient patient, @RequestAttribute("tenantId") Long tenantId) {
         return patientService.getPatientByIdAndTenant(id, tenantId)
                 .map(existing -> {
                     patient.setId(id);
@@ -84,7 +84,7 @@ public class PatientController {
      * @return 204 No Content
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePatient(@PathVariable Long id, @RequestParam Long tenantId) {
+    public ResponseEntity<Void> deletePatient(@PathVariable Long id, @RequestAttribute("tenantId") Long tenantId) {
         patientService.deletePatient(id, tenantId);
         return ResponseEntity.noContent().build();
     }
