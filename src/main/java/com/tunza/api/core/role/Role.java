@@ -1,7 +1,7 @@
 package com.tunza.api.core.role;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.databind.JsonNode;
+// import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
 @Table(name = "roles")
@@ -16,8 +16,10 @@ public class Role {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(columnDefinition = "JSON")
-    private JsonNode permissions;
+
+
+    @Column(columnDefinition = "TEXT")
+    private String permissions;
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -29,6 +31,6 @@ public class Role {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public JsonNode getPermissions() { return permissions; }
-    public void setPermissions(JsonNode permissions) { this.permissions = permissions; }
+    public String getPermissions() { return permissions; }
+    public void setPermissions(String permissions) { this.permissions = permissions; }
 }

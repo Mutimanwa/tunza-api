@@ -100,4 +100,4 @@ INSERT INTO roles (nom, description, permissions) VALUES
 ('RECEPTION', 'Réceptionniste', '["READ_PATIENT", "WRITE_PATIENT"]');
 
 -- Note: Tenants and users will be inserted via application or separate migration</content>
-<parameter name="filePath">/opt/lampp/htdocs/tunza-platform/tunza-api/src/main/resources/db/migration/V1__Create_MVP_Schema.sql
+-- <parameter name="filePath">/opt/lampp/htdocs/tunza-platform/tunza-api/src/main/resources/db/migration/V1__Create_MVP_Schema.sql
